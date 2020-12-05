@@ -1,0 +1,58 @@
+<div class="d-flex" id="wrapper">
+
+	<!-- Sidebar -->
+	<div class="bg-light border-right" id="sidebar-wrapper">
+		<div class="sidebar-heading" style="background-color: rgb(224, 224, 224);">
+			<a [routerLink]="['./']">
+				<img alt="" src="https://d1muf25xaso8hp.cloudfront.net/https%3A%2F%2Fs3.amazonaws.com%2Fappforest_uf%2Ff1604155982777x595978123732621200%2F1054949-512%2520%25281%2529.png?w=192&amp;h=192&amp;auto=compress&amp;fit=crop&amp;dpr=1" style="display: block; margin: 0 auto; width: 150px; height: 150px; border-radius: 0px;">
+			</a>
+     	</div>
+		<div class="list-group list-group-flush">
+			<span class="list-group-item list-group-item-action" style="background: #00786a; color: #fff">Controle</span>
+			<a [routerLink]="['./orcamentos']"
+				class="list-group-item list-group-item-action bg-light">Orçamentos</a>
+			<a [routerLink]="['./empresas']" class="list-group-item list-group-item-action bg-light">Empresas</a>
+			<span class="list-group-item list-group-item-action" style="background: #00786a; color: #fff">Relatórios</span>
+			<a [routerLink]="['./relatorios/orcamentos']"
+				class="list-group-item list-group-item-action bg-light">Orçamentos</a>
+			<span class="list-group-item list-group-item-action" style="background: #00786a; color: #fff">Configurações</span>
+			<a [routerLink]="['./']" class="list-group-item list-group-item-action bg-light">Tabela de Preços por
+				KM</a>
+			<a [routerLink]="['./']" class="list-group-item list-group-item-action bg-light">Tabela de Preços por
+				Cidades</a>
+		</div>
+	</div>
+		<!-- /#sidebar-wrapper -->
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+				<button class="btn btn-secondary" id="menu-toggle" (click)="this.clickMenuToggle()"><i class="fas fa-bars"></i></button>
+
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+						<li class="nav-item disabled" style="padding-right:15px">
+							<span class="navbar-text">Comercial</span>
+						</li>
+						<li class="nav-item active">
+							<a class="nav-link" href="#">Ajuda</a>
+						</li>
+						<li class="nav-item active">
+							<a class="nav-link" href="#">Sair</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+
+			<div class="container-fluid" style="padding: 15px">
+				<router-outlet></router-outlet>
+			</div>
+		</div>
+		<!-- /#page-content-wrapper -->
+
+	</div>

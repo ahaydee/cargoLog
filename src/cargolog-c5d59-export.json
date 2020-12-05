@@ -1,0 +1,205 @@
+{
+  "empresas" : {
+    "16799877000124" : {
+      "IE" : "353138630117",
+      "Bairro" : "Morrinhos",
+      "CEP" : "13147500",
+      "Municipio" : "Indaiatuba",
+      "CNPJ" : "16799877000124",
+      "Endereco" : "ESTRADA GENERAL MOTORS,852 GALPAO 15/16 - CALDEIRA",
+      "Nome" : "SONAVOX",
+      "Pais" : "Brasil",
+      "RazaoSocial" : "SONAVOX INDUSTRIA E COMERCIO DE ALTOS FALANTES LTDA.",
+      "Telefone" : "19 3923-9810",
+      "UF" : "SP"
+    },
+	
+    "02084220000257" : {
+      "IE" : "353138630117",
+      "Bairro" : "Alemoa",
+      "CEP" : "11095000",
+      "Municipio" : "Santos",
+      "CNPJ" : "02084220000257",
+      "Endereco" : "Av. Marginal Via Anchieta, 820 - Alemoa",
+      "Nome" : "SANTOS BRASIL LOGISTICA S/A.",
+      "Pais" : "Brasil",
+      "RazaoSocial" : "SANTOS BRASIL LOGISTICA S/A.",
+      "Telefone" : "(13) 3209-6000",
+      "UF" : "SP"
+    }
+
+  }, 
+	"preço_Cidade" : {
+	  "Santos_São Paulo" : {
+		 "Cidade_origem" : "Santos",
+		 "UF_origem" : "SP",
+		 "Cidade_destino" : "São Paulo",
+		 "UF_destino" : "SP",
+		 "Duracao_total" : 1256.00,
+		 "Qtde_Km" : 4806,
+		 "Valor" : 83.3
+	   },  
+
+	  "São Vicente_São Paulo" : {
+		 "Cidade_origem" : "São Vicente",
+		 "UF_origem" : "SP",
+		 "Cidade_destino" : "São Paulo",
+		 "UF_destino" : "SP",
+		 "Duracao_total" : 1171.00,
+		 "Qtde_Km" : 3968,
+		 "Valor" : 35.7
+	   }, 
+
+	  "Guarujá_São Paulo" : {
+		 "Cidade_origem" : "Guarujá",
+		 "UF_origem" : "SP",
+		 "Cidade_destino" : "São Paulo",
+		 "UF_destino" : "SP",
+		 "Duracao_total" : 1256.00,
+		 "Qtde_Km" : 5425,
+		 "Valor" : 87.1
+	   }, 
+
+	  "Campinas_Santos" : {
+		 "Cidade_origem" : "Campinas",
+		 "UF_origem" : "SP",
+		 "Cidade_destino" : "Santos",
+		 "UF_destino" : "SP",
+		 "Duracao_total" : 1602.00,
+		 "Qtde_Km" : 8556,
+		 "Valor" : 175.0
+	   },
+
+
+	  "São Paulo_Itapetininga" : {
+		 "Cidade_origem" : "São Paulo",
+		 "UF_origem" : "SP",
+		 "Cidade_destino" : "Itapetininga",
+		 "UF_destino" : "SP",
+		 "Duracao_total" : 1602.00,
+		 "Qtde_Km" : 8699,
+		 "Valor" : 184.0
+	   }
+	},
+  "preço_km" : {
+    "0_25" : {
+      "KM_maximo" : 25,
+      "KM_minimo" : 0,
+      "preco" : 622
+    },
+	
+    "25_50" : {
+      "KM_maximo" : 50,
+      "KM_minimo" : 25,
+      "preco" : 781
+    },
+	
+    "50_75" : {
+      "KM_maximo" : 75,
+      "KM_minimo" : 50,
+      "preco" : 1171
+    },
+	
+    "75_100" : {
+      "KM_maximo" : 100,
+      "KM_minimo" : 75,
+      "preco" : 1256
+    },
+	
+    "100_125" : {
+      "KM_maximo" : 125,
+      "KM_minimo" : 100,
+      "preco" : 1396
+    },
+	
+    "125_150" : {
+      "KM_maximo" : 150,
+      "KM_minimo" : 125,
+      "preco" : 1536
+    },
+	
+    "150_175" : {
+      "KM_maximo" : 175,
+      "KM_minimo" : 150,
+      "preco" : 1692
+    },
+	
+    "175_200" : {
+      "KM_maximo" : 200,
+      "KM_minimo" : 175,
+      "preco" : 1745
+    },
+	
+    "200_225" : {
+      "KM_maximo" : 225,
+      "KM_minimo" : 200,
+      "preco" : 1928
+    },
+	
+    "225_250" : {
+      "KM_maximo" : 250,
+      "KM_minimo" : 225,
+      "preco" : 2279
+    },
+	
+    "250_275" : {
+      "KM_maximo" : 275,
+      "KM_minimo" : 250,
+      "preco" : 2415
+    },
+	
+    "275_300" : {
+      "KM_maximo" : 300,
+      "KM_minimo" : 275,
+      "preco" : 2549
+    },
+	
+    "300_325" : {
+      "KM_maximo" : 325,
+      "KM_minimo" : 300,
+      "preco" : 2767
+    }
+  },
+  "orcamentos": {
+	"1": {
+		"Id": 1,
+		"DataPedido": "31/10/2020",
+		"DataColeta": "30/11/2020",
+		"DataEntrega": "30/12/2020",
+		"QtTotalKm": 300,
+		"VlFreteCaminhoneiro": 1100,
+		"VlTotalFrete": 1800,
+		"VlPedagio": 122,
+		"Armador": null, 
+		"Navio": null,
+		"Obs": null,
+		"NFMae": null,
+		"DI": null,
+		"VlDespachante": null,
+		"VlTotalServico": 1922,
+		"TipoTransporte": 3,
+		"SituacaoAtual": 2,
+		"Tomador": "SONAVOX",
+		"Entrega": "SONAVOX",
+		"Coleta": "SONAVOX",
+		"TipoTomador": 3
+	}
+  },
+	"produtos": {
+		"1-1": {
+			"Id": 1,
+			"Orcamento": 1,
+			"VlTotal": 350.00,
+			"Volume": 625,
+			"Altura": 25,
+			"Largura": 25,
+			"Comprimento": 25,
+			"PesoUnitario": 5,
+			"Acondicionamento": "CAIXA DE PAPELÃO",
+			"QtdeAcondicionamento": 5,
+			"Desc": "PRODUTOS ALTO FALANTE",
+			"Container": null,
+			"TipoCarroceria": 3
+		}
+	}
+}

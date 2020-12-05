@@ -1,0 +1,338 @@
+<a [routerLink]="['/orcamentos']">Voltar</a>
+<hr />
+<h2>Orçamento</h2>
+<hr />
+<div *ngIf="this.orcamento && this.produtos">
+	<div class="row">
+		<div class="col-lg-3" style="padding-bottom: 15px">
+			<label for="processo2"><strong>Processo</strong></label>
+			<input disabled id="processo2" type="text" class="form-control" [value]="this.orcamento.Id">
+		</div>
+		<div class="col-lg-3" style="padding-bottom: 15px">
+			<label for="tipo2"><strong>Tipo do Serviço</strong></label>
+			<input disabled id="tipo2" type="text" class="form-control" [value]="this.orcamento.TipoTransporte == this.enumTipo.Importacao ? 'Importação' : 
+			this.orcamento.TipoTransporte == this.enumTipo.Exportacao ? 'Exportação' : 
+			this.orcamento.TipoTransporte == this.enumTipo.NDA ? 'N.D.A.' : '-'">
+		</div>
+		<div class="col-lg-3" style="padding-bottom: 15px">
+			<label for="tomador2"><strong>Tomador do Serviço</strong></label>
+			<input disabled id="tomador2" type="text" class="form-control" [value]="this.orcamento.Tomador">
+		</div>
+		<div class="col-lg-3" style="padding-bottom: 15px">
+			<label for="coleta2"><strong>Local de Coleta</strong></label>
+			<input disabled id="coleta2" type="text" class="form-control" [value]="this.orcamento.Coleta">
+		</div>
+		<div class="col-lg-3" style="padding-bottom: 15px">
+			<label for="entrega2"><strong>Local de Entrega</strong></label>
+			<input disabled id="entrega2" type="text" class="form-control" [value]="this.orcamento.Entrega">
+		</div>
+		<div class="col-lg-3" style="padding-bottom: 15px">
+			<label for="devolucao2"><strong>Local de Devolução</strong></label>
+			<input disabled id="devolucao2" type="text" class="form-control" [value]="this.orcamento.Devolucao ? this.orcamento.Devolucao : '-'">
+		</div>
+		<div class="col-lg-3" style="padding-bottom: 15px">
+			<label for="total2"><strong>Total do Frete</strong></label>
+			<input disabled id="total2" type="text" class="form-control" [value]="this.orcamento.VlTotalFrete">
+		</div>
+		<div class="col-lg-3" style="padding-bottom: 15px">
+			<label for="situacao2"><strong>Situação Atual</strong></label>
+			<input disabled id="situacao2" type="text" class="form-control" [value]="orcamento.SituacaoAtual == this.enumSituacao.Pendente ? 'Pendente':
+			orcamento.SituacaoAtual == this.enumSituacao.Arquivado ? 'Arquivado':
+			orcamento.SituacaoAtual == this.enumSituacao.EmAndamento ? 'Em Andamento':
+			orcamento.SituacaoAtual == this.enumSituacao.Finalizado ? 'Finalizado' : 
+			orcamento.SituacaoAtual == this.enumSituacao.Confirmado ? 'Confirmado':'-'">
+		</div>
+	</div>
+	<div *ngIf="this.produtos">
+		<hr />
+		<h3>Produtos</h3>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="table-responsive">
+					<table class="table table-striped table-bordered ">
+						<thead class="thead-dark" style="width: 100%">
+							<tr>
+								<th>Valor</th>
+								<th>Tipo</th>
+								<th>Acondicionamento</th>
+								<th>Descrição</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let produto of this.produtos">
+								<th>{{produto.VlTotal}}</th>
+								<th>{{produto.TipoCarroceria}}</th>
+								<th>{{produto.Acondicionamento}}</th>
+								<th>{{produto.Desc}}</th>
+							</tr>
+							<tr *ngIf="!this.produtos || (this.produtos && this.produtos.length == 0)">
+								<td colspan="7">Nenhum dado foi encontrado</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr />
+	<div class="row">
+		<div class="col-lg-6">
+			<button class="btn btn-primary" style="margin-right: 15px" (click)="this.editar(content)">Editar</button>
+			<button class="btn btn-info" style="margin-right: 15px" (click)="this.confirmar()">Confirmar orçamento</button>
+			<button class="btn btn-secondary" style="margin-right: 15px" (click)="this.arquivar()">Arquivar</button>
+		</div>
+	</div>
+</div>
+<div *ngIf="!this.orcamento">
+	<div class="row">
+		<div class="col-lg-12">
+			<p>Orçamento não encontrado</p>
+		</div>
+	</div>
+</div>
+
+<ng-template #content let-modal>
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Editar Orçamento</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-lg-11">
+            <div class="errors">
+                <p id='tomadorError' style="display: none;">O <strong>Tomador do Serviço</strong> é obrigatório</p>
+                <p id='coletaError' style="display: none;">O <strong>Local de Coleta</strong> é obrigatório</p>
+                <p id='entregaError' style="display: none;">O <strong>Local de Entrega</strong> é obrigatório</p>
+                <p id='tipoTomadorError' style="display: none;">O <strong>Tipo do Tomador do Serviço</strong> é obrigatório</p>
+                <p id='dtColetaError' style="display: none;">A <strong>Data da Coleta</strong> é obrigatória</p>
+                <p id='dtEntregaError' style="display: none;">A <strong>Data da Entrega</strong> é obrigatória</p>
+                <p id='produtosError' style="display: none;">É obrigatório adicionar pelo menos um <strong>Produto</strong></p>
+                <p id='tipoTransporteError' style="display: none;">O <strong>Tipo do Serviço</strong> é obrigatório</p>
+                <p id='vlCaminhoneiroError' style="display: none;">O <strong>Valor Caminhoneiro</strong> é obrigatório</p>
+                <p id='totalServicoError' style="display: none;">O <strong>Total Serviço</strong> é obrigatório</p>
+                <p id='totalFreteError' style="display: none;">O <strong>Total Frete</strong> é obrigatório</p>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="padding: 10px">
+        <div class="col-lg-4" style="padding-bottom: 15px">
+            <label for="tomador" title="Empresa que solicitou o orçamento"><strong>Tomador do Serviço<span class="required">*</span></strong></label>
+            <select #tomador id="tomador" class="form-control" (change)="this.onChange('tomador', tomador.value)" [value]="edit.Tomador">
+                <option value="0">Selecione o Tomador do Serviço</option>
+                <option *ngFor="let empresa of this.empresas" value="{{empresa.CNPJ}}">{{empresa.Nome}}</option>
+            </select>
+        </div>
+        <div class="col-lg-4" style="padding-bottom: 15px">
+            <label for="coleta" title="Empresa onde será coletado"><strong>Local de Coleta<span class="required">*</span></strong></label>
+            <select #coleta id="coleta" class="form-control" (change)="this.onChange('coleta', coleta.value)" [value]="edit.Coleta">
+                <option value="0">Selecione o Local de Coleta</option>
+                <option *ngFor="let empresa of this.empresas" value="{{empresa.CNPJ}}">{{empresa.Nome}}</option>
+            </select>
+        </div>
+        <div class="col-lg-4" style="padding-bottom: 15px">
+            <label for="entrega" title="Empresa onde será entregue"><strong>Local de Entrega<span class="required">*</span></strong></label>
+            <select #entrega id="entrega" class="form-control" (change)="this.onChange('entrega', entrega.value)" [value]="edit.Entrega">
+                <option value="0">Selecione o Local de Entrega</option>
+                <option *ngFor="let empresa of this.empresas" value="{{empresa.CNPJ}}">{{empresa.Nome}}</option>
+            </select>
+        </div>
+        <div class="col-lg-4" style="padding-bottom: 15px">
+            <label for="tipoTomador"><strong>Tipo do Tomador do Serviço<span class="required">*</span></strong></label>
+            <select #tipoTomador id="tipoTomador" class="form-control" (change)="this.onChange('tipoTomador', tipoTomador.value)" [value]="edit.TipoTomador">
+                <option value="-1">Selecione o Tipo do Tomador do Serviço</option>
+                <option value="0">Nenhum</option>
+                <option value="1">Destinatário</option>
+                <option value="2">Remetente</option>
+                <option value="3">Ambos</option>
+            </select>
+        </div>
+        <div class="col-lg-4" style="padding-bottom: 15px">
+            <label for="dtColeta"><strong>Data da Coleta<span class="required">*</span></strong></label>
+            <input #dtColeta id="dtColeta" type="date" class="form-control" (change)="this.onChange('dtColeta', dtColeta.value)" [value]="edit.DataColeta">
+        </div>
+        <div class="col-lg-4" style="padding-bottom: 15px">
+            <label for="dtEntrega"><strong>Data da Entrega<span class="required">*</span></strong></label>
+            <input #dtEntrega id="dtEntrega" type="date" class="form-control" (change)="this.onChange('dtEntrega', dtEntrega.value)" [value]="edit.DataEntrega">
+        </div>
+        <div class="col-lg-12">
+            <hr />
+            <h5 style="padding-bottom: 15px">Produtos</h5>
+			<div class="table-responsive">
+				<table class="table table-striped table-bordered ">
+					<thead class="thead-dark" style="width: 100%">
+						<tr>
+							<th>Valor</th>
+							<th>Tipo</th>
+							<th>Acondicionamento</th>
+							<th>Descrição</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let produto of this.products">
+							<th>{{produto.VlTotal}}</th>
+							<th>{{produto.TipoCarroceria}}</th>
+							<th>{{produto.Acondicionamento}}</th>
+							<th>{{produto.Desc}}</th>
+							<td style="text-align: left">
+								<button class="btn btn-link" (click)="this.removerCarga(produto.Id)"><i class="fa fa-trash"></i></button>
+							</td>
+						</tr>
+						<tr *ngIf="!this.products || (this.products && this.products.length == 0)">
+							<td colspan="5">Nenhum dado foi encontrado</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+        </div>
+        <div class="col-lg-12" style="padding-bottom: 15px">
+            <button class="btn btn-info" (click)="this.addProduto(template)">Adicionar</button>
+        </div>
+        <div class="col-lg-12" style="padding-bottom: 15px">
+            <hr />
+            <h5>Frete</h5>
+        </div>
+        <div class="col-lg-4" style="padding-bottom: 15px">
+            <label for="tipoTransporte"><strong>Tipo do Serviço<span class="required">*</span></strong></label>
+            <select #tipoTransporte id="tipoTransporte" class="form-control" (change)="this.onChange('tipoTransporte', tipoTransporte.value)" [value]="edit.TipoTransporte">
+                <option value="0">Selecione o Tipo do Serviço</option>
+                <option value="1">Importação</option>
+                <option value="2">Exportação</option>
+                <option value="3">N.D.A.</option>
+            </select>
+        </div>
+        <!--<div class="col-lg-4" style="padding-bottom: 15px">
+            <label for="totalKM">Total KM</label>
+            <input disabled id="totalKM" type="number" class="form-control">
+        </div>
+        <div class="col-lg-4" style="padding-bottom: 15px">
+            <label for="precoCidade">Preço por Cidades</label>
+            <input disabled id="precoCidade" type="number" class="form-control">
+        </div>
+        <div class="col-lg-4" style="padding-bottom: 15px">
+            <label for="precoKM">Preço por KM</label>
+            <input disabled id="precoKM" type="number" class="form-control">
+        </div>-->
+        <div class="col-lg-4" style="padding-bottom: 15px">
+            <label for="vlDespachante">Valor Despachante</label>
+            <input #vlDespachante id="vlDespachante" type="number" class="form-control" [value]="edit.VlDespachante">
+        </div>
+        <div class="col-lg-4" style="padding-bottom: 15px">
+            <label for="vlPedagio">Valor Pedágio</label>
+            <input #vlPedagio id="vlPedagio" type="number" class="form-control" [value]="edit.VlPedagio">
+        </div>
+        <div class="col-lg-4" style="padding-bottom: 15px">
+            <label for="vlCaminhoneiro"><strong>Valor Caminhoneiro<span class="required">*</span></strong></label>
+            <input #vlCaminhoneiro id="vlCaminhoneiro" type="number" class="form-control" (change)="this.onChange('vlCaminhoneiro', vlCaminhoneiro.value)" [value]="edit.VlFreteCaminhoneiro">
+        </div>
+        <div class="col-lg-4" style="padding-bottom: 15px">
+            <label for="totalServico" title=""><strong>Total Serviço<span class="required">*</span></strong></label>
+            <input #totalServico id="totalServico" type="number" class="form-control" (change)="this.onChange('totalServico', totalServico.value)" [value]="edit.VlTotalServico">
+        </div>
+        <div class="col-lg-4" style="padding-bottom: 15px">
+            <label for="totalFrete"><strong>Total Frete<span class="required">*</span></strong></label>
+            <input #totalFrete id="totalFrete" type="number" class="form-control" (change)="this.onChange('totalFrete', totalFrete.value)" [value]="edit.VlTotalFrete">
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-success" (click)="this.save(tomador.value,coleta.value,entrega.value,tipoTomador.value,
+    dtColeta.value,dtEntrega.value,tipoTransporte.value,vlDespachante.value, vlPedagio.value,vlCaminhoneiro.value, totalServico.value,
+    totalFrete.value)">Salvar</button>
+    <button type="button" class="btn btn-secondary" (click)="this.close()">Cancelar</button>
+</div>
+</ng-template>
+
+
+
+<ng-template #template let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title-template">Adicionar Produto</h4>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-lg-11">
+				<div class="errors">
+					<p id='totalCargaError' style="display: none;">O <strong>Valor Total da Carga</strong> é obrigatório</p>
+					<!--<p id='cubagemError' style="display: none;">A <strong>Cubagem</strong> é obrigatória</p>
+					<p id='pesoTotalError' style="display: none;">O <strong>Peso Total</strong> é obrigatório</p>-->
+					<p id='numVolumesError' style="display: none;">O <strong>Nº Volumes</strong> é obrigatório</p>
+					<p id='pesoVolumeError' style="display: none;">O <strong>Peso por Volume</strong> é obrigatório</p>
+					<p id='acondicionamentoError' style="display: none;">O <strong>Acondicionamento</strong> é obrigatória</p>
+					<p id='qtdeAcondicionadaError' style="display: none;">A <strong>Qtde Acondicionada</strong> é obrigatória</p>
+					<p id='tipoCarroceriaError' style="display: none;">O <strong>Tipo da Carroceria</strong> é obrigatório</p>
+					<p id='numContainerError' style="display: none;">O <strong>Nº Container</strong> é obrigatório</p>
+					<p id='alturaError' style="display: none;">A <strong>Altura</strong> é obrigatória</p>
+					<p id='larguraError' style="display: none;">A <strong>Largura</strong> é obrigatória</p>
+					<p id='comprimentoError' style="display: none;">O <strong>Comprimento</strong> é obrigatório</p>
+					<p id='descError' style="display: none;">A <strong>Descrição</strong> é obrigatória</p>
+				</div>
+			</div>
+		</div>
+		<div class="row" style="padding: 10px">
+			<div class="col-lg-4" style="padding-bottom: 15px">
+				<label for="totalCarga"><strong>Valor Total da Carga<span class="required">*</span></strong></label>
+				<input #totalCarga id="totalCarga" type="number" class="form-control" (change)="this.onChange('totalCarga', totalCarga.value)">
+			</div>
+			<!--<div class="col-lg-4" style="padding-bottom: 15px">
+				<label for="cubagem"><strong>Cubagem<span class="required">*</span></strong></label>
+				<input #cubagem id="cubagem" type="number" class="form-control" (change)="this.onChange('cubagem', cubagem.value)">
+			</div>
+			<div class="col-lg-4" style="padding-bottom: 15px">
+				<label for="pesoTotal"><strong>Peso Total<span class="required">*</span></strong></label>
+				<input #pesoTotal id="pesoTotal" type="number" class="form-control" (change)="this.onChange('pesoTotal', pesoTotal.value)">
+			</div>-->
+			<div class="col-lg-4" style="padding-bottom: 15px">
+				<label for="numVolumes"><strong>Nº de Volumes<span class="required">*</span></strong></label>
+				<input #numVolumes id="numVolumes" type="number" class="form-control" (change)="this.onChange('numVolumes', numVolumes.value)">
+			</div>
+			<div class="col-lg-4" style="padding-bottom: 15px">
+				<label for="pesoVolume"><strong>Peso por Volume<span class="required">*</span></strong></label>
+				<input #pesoVolume id="pesoVolume" type="number" class="form-control" (change)="this.onChange('pesoVolume', pesoVolume.value)">
+			</div>
+			<div class="col-lg-4" style="padding-bottom: 15px">
+				<label for="acondicionamento" title="Forma que a carga será armazenada"><strong>Acondicionamento<span class="required">*</span></strong></label>
+				<input #acondicionamento id="acondicionamento" type="text" class="form-control" (change)="this.onChange('acondicionamento', acondicionamento.value)">
+			</div>
+			
+			<div class="col-lg-4" style="padding-bottom: 15px">
+				<label for="qtdeAcondicionada"><strong>Qtde Acondicionada<span class="required">*</span></strong></label>
+				<input #qtdeAcondicionada id="qtdeAcondicionada" type="number" class="form-control" (change)="this.onChange('qtdeAcondicionada', qtdeAcondicionada.value)">
+			</div>
+			<div class="col-lg-4" style="padding-bottom: 15px">
+				<label for="tipoCarroceria"><strong>Tipo da Carroceria<span class="required">*</span></strong></label>
+				<select #tipoCarroceria id="tipoCarroceria" class="form-control" (change)="this.onChange('tipoCarroceria', tipoCarroceria.value)">
+					<option value="0">Selecione o Tipo da Carroceria</option>
+					<option value="1">Container</option>
+					<option value="2">Granel</option>
+					<option value="3">Carga Solta/Seca</option>
+				</select>
+			</div>
+			<div class="col-lg-4" style="padding-bottom: 15px">
+				<label for="numContainer"><strong>Nº Container<span class="required">*</span></strong></label>
+				<input #numContainer id="numContainer" [disabled]="tipoCarroceria.value != '1'" type="number" class="form-control" (change)="this.onChange('numContainer', numContainer.value)">
+			</div>
+			<div class="col-lg-4" style="padding-bottom: 15px">
+				<label for="altura"><strong>Altura<span class="required">*</span></strong></label>
+				<input #altura id="altura" type="number" class="form-control" (change)="this.onChange('altura', altura.value)">
+			</div>
+			<div class="col-lg-4" style="padding-bottom: 15px">
+				<label for="largura"><strong>Largura<span class="required">*</span></strong></label>
+				<input #largura id="largura" type="number" class="form-control" (change)="this.onChange('largura', largura.value)">
+			</div>
+			<div class="col-lg-4" style="padding-bottom: 15px">
+				<label for="comprimento"><strong>Comprimento<span class="required">*</span></strong></label>
+				<input #comprimento id="comprimento" type="number" class="form-control" (change)="this.onChange('comprimento', comprimento.value)">
+			</div>
+			<div class="col-lg-8" style="padding-bottom: 15px">
+				<label for="desc"><strong>Descrição<span class="required">*</span></strong></label>
+				<input #desc id="desc" type="text" class="form-control" (change)="this.onChange('desc', desc.value)">
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-success" (click)="this.salvarProduto(totalCarga.value, numVolumes.value,altura.value,largura.value,comprimento.value,
+		pesoVolume.value,acondicionamento.value, qtdeAcondicionada.value,desc.value,numContainer.value,tipoCarroceria.value
+		)">Salvar</button>
+		<button type="button" class="btn btn-secondary" (click)="modal.close()" >Cancelar</button>
+	</div>
+</ng-template>

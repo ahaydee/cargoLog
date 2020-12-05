@@ -1,0 +1,73 @@
+<h2>Relatório de Orçamentos</h2>
+<hr />
+<div class="row">
+	<div class="col-lg-6">
+		<div class="errors">
+			<p id='dateInError' style="display: none;">A <strong>Data Inicial</strong> é obrigatória</p>
+			<p id='dateFnError' style="display: none;">A <strong>Data Final</strong> é obrigatória</p>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-4">
+		<p>Selecione o período</p>
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-3" style="padding-bottom: 15px">
+		<label for="dateIn"><strong>Data Inicial<span class="required">*</span></strong></label>
+		<input #dateIn id="dateIn" type="date" (change)="this.onChange('dateIn', dateIn.value)" class="form-control">
+  	</div>
+	<div class="col-lg-3" style="padding-bottom: 15px">
+		<label for="dateFn"><strong>Data Final<span class="required">*</span></strong></label>
+		<input #dateFn id="dateFn" type="date" (change)="this.onChange('dateFn', dateFn.value)" class="form-control">
+  	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-3" style="padding-bottom: 15px">
+		<button (click)="this.onDownload(dateIn.value, dateFn.value);" class="btn btn-primary" style="width: 100%;">Baixar</button>
+	</div>
+	<div class="col-lg-3" style="padding-bottom: 15px">
+		<button (click)="this.onEmail(dateIn.value, dateFn.value, content);" class="btn btn-success" style="width: 100%">Enviar por Email</button>
+	</div>
+</div>
+
+<ng-template #content let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Enviar por Email</h4>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-lg-11">
+				<div class="errors">
+					<p id='destError' style="display: none;">O <strong>Destinatário</strong> é obrigatório</p>
+					<p id='assuntoError' style="display: none;">O <strong>Assunto</strong> é obrigatório</p>
+				</div>
+			</div>
+		</div>
+		<div class="row justify-content-md-center">
+			<div class="col-lg-11" style="padding-bottom: 15px">
+				<label for="dest"><strong>Destinatário<span class="required">*</span></strong></label>
+				<select #dest (change)="this.onChange('dest', dest.value)" class="form-control" id="dest">
+					<option value="0">Selecione um destinatário</option>
+					<option value="administrativo@cargolog.com">Administrativo - administrativo@cargolog.com</option>
+					<option value="comercial@cargolog.com">Comercial - comercial@cargolog.com</option>
+					<option value="operacional@cargolog.com">Operacional - operacional@cargolog.com</option>
+				</select>
+			</div>
+			<div class="col-lg-11" style="padding-bottom: 15px">
+				<label for="assunto"><strong>Assunto<span class="required">*</span></strong></label>
+				<input #assunto (change)="this.onChange('assunto', assunto.value)" id="assunto" type="text" class="form-control" max="150">
+			</div>
+			<div class="col-lg-11" style="padding-bottom: 15px">
+				<label for="mensagem">Mensagem</label>
+				<textarea #mensagem id="mensagem" class="form-control"></textarea>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-success" (click)="this.send(dest.value, assunto.value, mensagem.value)" >Enviar</button>
+		<button type="button" class="btn btn-secondary" (click)="modal.close('Save click')" >Cancelar</button>
+	</div>
+</ng-template>
